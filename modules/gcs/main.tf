@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.11.0"
+}
+
 // Bucket for logging access to the project store.
 resource "google_storage_bucket" "logs" {
   count         = "${var.create_project_bucket ? 1 : 0}"
@@ -42,56 +46,15 @@ resource "google_storage_bucket" "store" {
   }
 }
 
-////  Grant storage.admin to group for the secure bucket
-//resource "google_storage_bucket_iam_member" "group_storage_admin_on_secure_bucket" {
-//  bucket = "${google_storage_bucket.vault-secure.name}"
-//  role   = "roles/storage.admin"
+//  Grant storage.admin to the project's default service account for the storage and logging buckets
+resource "google_storage_bucket_iam_member" "project_store_admin" {
+  bucket = "${google_storage_bucket.store.name}"
+  role   = "roles/storage.admin"
+  member = "serviceAccount:${var.service_account_email}"
+}
 
-
-//  // TODO: expose the group name as an output in the project base
-//  member = "group:${local.custom_project_id}-editors@minnow.me"
-//}
-
-
-////  Grant storage.admin to default compute service account for the secure bucket
-//resource "google_storage_bucket_iam_member" "sa_storage_admin_on_secure_bucket" {
-//  bucket = "${google_storage_bucket.vault-secure.name}"
-//  role   = "roles/storage.admin"
-//  member = "serviceAccount:${module.project.service_account_email}"
-//}
-
-
-//// Grant storage.admin to Google APIs service account for the secure bucket
-//resource "google_storage_bucket_iam_member" "api_sa_storage_admin_on_secure_bucket" {
-//  bucket = "${google_storage_bucket.vault-secure.name}"
-//  role   = "roles/storage.admin"
-//  member = "serviceAccount:${module.project.service_account_email}"
-//}
-
-
-////  Grant storage.admin to group for the secure bucket logs
-//resource "google_storage_bucket_iam_member" "group_storage_admin_on_secure_bucket_logs" {
-//  bucket = "${google_storage_bucket.vault-secure-logs.name}"
-//  role   = "roles/storage.admin"
-
-
-//  // TODO: expose the group name as an output in the project base
-//  member = "group:${local.custom_project_id}-editors@minnow.me"
-//}
-
-
-////  Grant storage.admin to default compute service account for the secure bucket logs
-//resource "google_storage_bucket_iam_member" "sa_storage_admin_on_secure_bucket_logs" {
-//  bucket = "${google_storage_bucket.vault-secure-logs.name}"
-//  role   = "roles/storage.admin"
-//  member = "serviceAccount:${module.project.service_account_email}"
-//}
-
-
-//// Grant storage.admin to Google APIs service account for the secure bucket logs
-//resource "google_storage_bucket_iam_member" "api_sa_storage_admin_on_secure_bucket_logs" {
-//  bucket = "${google_storage_bucket.vault-secure-logs.name}"
-//  role   = "roles/storage.admin"
-//  member = "serviceAccount:${module.project.service_account_email}"
-//}
-
+resource "google_storage_bucket_iam_member" "project_logging_admin" {
+  bucket = "${google_storage_bucket.logs.name}"
+  role   = "roles/storage.admin"
+  member = "serviceAccount:${var.service_account_email}"
+}

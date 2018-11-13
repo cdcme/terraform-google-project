@@ -1,11 +1,5 @@
-provider "google" {
-  project = "${var.project_id}"
-  region  = "${var.region}"
-  version = "~> 1.19.1"
-}
-
 terraform {
-  required_version = ">= 0.10.3"
+  required_version = ">= 0.11.0"
 }
 
 // Enable the Cloud KMS API.

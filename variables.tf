@@ -35,34 +35,9 @@ variable "create_encryption_resources" {
   default     = "true"
 }
 
-variable "create_project_bucket" {
-  description = "Whether or not to create a GCS bucket for this project. If `'true'`, a logging bucket will automatically be created and logging will be enabled. If `configure_kms` is `'true`, any buckets created will be configured with encryption enabled using your project's KMS key."
-  default     = "true"
-}
-
 variable "display_name" {
   description = "The name that will be displayed in GCP Cloud Console's interface."
   default     = ""
-}
-
-variable "project_storage_class" {
-  description = "The storage class to use for your project's storage and logging buckets."
-  default     = "REGIONAL"
-}
-
-variable "create_tfstate_bucket" {
-  description = "Whether or not to create a bucket for Terraform state in your `host_project`, if defined."
-  default     = "true"
-}
-
-variable "tfstate_storage_class" {
-  description = "The storage class to use for your Terraform state bucket."
-  default     = "REGIONAL"
-}
-
-variable "create_usage_reporting_bucket" {
-  description = "Whether or not to create a bucket for your project's GCE usage reporting."
-  default     = "false"
 }
 
 variable "custom_id" {
@@ -118,4 +93,73 @@ variable "region" {
 variable "skip_delete" {
   description = " If true, the Terraform resource can be deleted without deleting the Project via the Google API."
   default     = "false"
+}
+
+// GCS options
+
+variable "create_project_bucket" {
+  description = "Whether or not to create a GCS bucket for this project. If `'true'`, a logging bucket will automatically be created and logging will be enabled. If `configure_kms` is `'true`, any buckets created will be configured with encryption enabled using your project's KMS key."
+  default     = "true"
+}
+
+variable "project_storage_class" {
+  description = "The storage class to use for your project's storage and logging buckets."
+  default     = "REGIONAL"
+}
+
+variable "create_tfstate_bucket" {
+  description = "Whether or not to create a bucket for Terraform state in your `host_project`, if defined."
+  default     = "true"
+}
+
+variable "tfstate_storage_class" {
+  description = "The storage class to use for your Terraform state bucket."
+  default     = "REGIONAL"
+}
+
+// VPC options
+
+variable "create_vpc_network" {
+  description = "Whether or not to create a VPC network for the project. If `'true'`, this will try to configure this project as a service project on the host project's VPC network's shared subnet."
+  default     = "true"
+}
+
+variable "host_dns_zone" {
+  description = "The VPC host network's managed DNS zone."
+  default     = ""
+}
+
+variable "auto_create_subnets" {
+  description = "Whether or not to automatically create subnets on this VPC."
+  default     = "false"
+}
+
+variable "network_name" {
+  description = " A unique name for the network, required by GCE."
+  default     = ""
+}
+
+variable "routing_mode" {
+  description = "Sets the network-wide routing mode for Cloud Routers to use. Accepted values are 'GLOBAL' or 'REGIONAL'."
+  default     = "REGIONAL"
+}
+
+variable "create_ssh_fw_rule" {
+  description = "If true, this will create a firewall rule preventing SSH access from anywhere but within Cloud Console."
+  default     = "true"
+}
+
+variable "flow_logs" {
+  description = "Whether to enable flow logging for the Shared VPC subnetwork."
+  default     = "true"
+}
+
+variable "private_access" {
+  description = "Whether to allow private access to Google APIs without an external IP address."
+  default     = "true"
+}
+
+variable "subnet_name" {
+  description = "The name of the resource, provided by the client when initially creating the resource. The name must be 1-63 characters long, and comply with RFC1035."
+  default     = ""
 }

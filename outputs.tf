@@ -69,3 +69,14 @@ output "storage" {
     store_bucket_url         = "${module.storage.store_bucket_url}"
   }
 }
+
+output "vpc" {
+  description = "Project VPC network details."
+
+  value = {
+    network_name         = "${module.vpc.name}"
+    network_routing_mode = "${module.vpc.routing_mode}"
+    network_gateway      = "${module.vpc.gateway_ipv4}"
+    network_self_link    = "${module.vpc.self_link}"
+  }
+}

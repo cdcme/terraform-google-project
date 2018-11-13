@@ -3,7 +3,7 @@
 */
 
 terraform {
-  required_version = ">= 0.10.3"
+  required_version = ">= 0.11.0"
 }
 
 // Create a basic project.
@@ -63,7 +63,8 @@ terraform {
 }
 */
 resource "google_storage_bucket" "tfstate" {
-  count         = "${var.create_tfstate_bucket ? 1 : 0}"
+  count = "${var.create_tfstate_bucket ? 1 : 0}"
+
   force_destroy = "false"
   location      = "${var.region}"
   name          = "${google_project.project.id}"
@@ -87,20 +88,42 @@ resource "google_storage_bucket" "tfstate" {
 
 // Project encryption resources.
 module "encryption" {
-  source                      = "./modules/kms"
+  source = "./modules/kms"
+
   create_encryption_resources = "${var.create_encryption_resources}"
   project_id                  = "${google_project.project.id}"
   region                      = "${var.region}"
   service_account_email       = "${google_service_account.project_default.email}"
 }
 
-// Storage resources, intended for sensitive project-wide data, not for specific (public web, files, etc.) use cases.
+// Storage resources, intended specifically for sensitive project-wide data, not for general (public web, files, etc.) use cases.
 module "storage" {
+  source = "./modules/gcs"
+
   create_project_bucket = "${var.create_project_bucket}"
-  default_kms_key_name  = "${var.create_encryption_resources ? module.encryption.key_name : ""}"
+  default_kms_key_name  = "${var.create_encryption_resources ? module.encryption.key_name[0] : ""}"
   location              = "${var.region}"
   name_prefix           = "${google_project.project.id}"
   project_id            = "${google_project.project.id}"
-  source                = "./modules/gcs"
+  service_account_email = "${google_service_account.project_default.email}"
   storage_class         = "${var.project_storage_class}"
+}
+
+// VPC resources. Note that `secondary_ip_range` is not supported yet,
+// but you can add one yourself once this is created.
+module "vpc" {
+  source = "./modules/vpc"
+
+  auto_create_subnets   = "${var.auto_create_subnets}"
+  create_vpc_network    = "${var.create_vpc_network}"
+  flow_logs             = "${var.flow_logs}"
+  host_dns_zone         = "${var.host_dns_zone}"
+  host_project          = "${var.host_project}"
+  network_name          = "${var.network_name}"
+  private_access        = "${var.private_access}"
+  project_id            = "${local.project_id}"
+  region                = "${var.region}"
+  routing_mode          = "${var.routing_mode}"
+  service_account_email = "${google_service_account.project_default.email}"
+  subnet_name           = "${var.subnet_name}"
 }
