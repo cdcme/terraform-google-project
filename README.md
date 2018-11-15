@@ -45,8 +45,6 @@ By default, the module creates the following regional resources:
 
 _Only_ the GCP project itself and the service account are required. Everything else is optional and configurable.
 
-Module main.
-
 ## Inputs
 
 | Name | Description | Type | Default |
@@ -95,14 +93,14 @@ Module main.
 | tfstate\_bucket | Project Terraform state bucket details. |
 | vpc | Project VPC network details. |
 
-Check [_docs/graph.png](https://github.com/minnowpod/terraform-google-project/_docs/graph.png) for the Terraform graph.
+Check [_docs/graph.png](https://github.com/minnowpod/terraform-google-project/blob/master/_docs/graph.png) for the Terraform graph.
 
 ## Usage
 
 ```hcl
 // Create a default project
 module "my-project" {
-  source = "github.com/minnowpod/terraform-google-project?ref=v0.1.0
+  source = "github.com/minnowpod/terraform-google-project?ref=v0.1.0"
 
   // these can also be passed from the environment with TF_VAR_billing_account, for example
   billing_account = "bar"
@@ -125,7 +123,7 @@ module "my-project" {
 
 // Add an additional VPC network
 module "another-vpc" {
-  source = "github.com/minnowpod/terraform-google-project//modules/vpc?ref=v0.1.0
+  source = "github.com/minnowpod/terraform-google-project//modules/vpc?ref=v0.1.0"
 
   // but skip the SSH firewall rule on this one
   create_ssh_fw_rule = "false"

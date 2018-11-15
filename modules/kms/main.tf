@@ -2,11 +2,19 @@ terraform {
   required_version = ">= 0.11.0"
 }
 
+// Ensure the project is created first
+resource "null_resource" "project_id" {
+  triggers {
+    project_id = "${var.project_id}"
+  }
+}
+
 // Enable the Cloud KMS API.
 resource "google_project_service" "kms_api" {
-  count   = "${var.create_encryption_resources ? 1 : 0}"
-  project = "${var.project_id}"
-  service = "cloudkms.googleapis.com"
+  count      = "${var.create_encryption_resources ? 1 : 0}"
+  project    = "${var.project_id}"
+  service    = "cloudkms.googleapis.com"
+  depends_on = ["null_resource.project_id"]
 }
 
 // Create a KMS key ring for storing keys for this project.
