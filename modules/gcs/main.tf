@@ -2,6 +2,19 @@ terraform {
   required_version = ">= 0.11.0"
 }
 
+// Ensure the project and KMS resources exist first
+resource "null_resource" "project_id" {
+  triggers {
+    project_id = "${var.project_id}"
+  }
+}
+
+resource "null_resource" "default_kms_key_name" {
+  triggers {
+    default_kms_key_name = "${var.default_kms_key_name}"
+  }
+}
+
 // Bucket for logging access to the project store.
 resource "google_storage_bucket" "logs" {
   count         = "${var.create_project_bucket ? 1 : 0}"
@@ -18,6 +31,8 @@ resource "google_storage_bucket" "logs" {
   lifecycle {
     prevent_destroy = "true"
   }
+
+  depends_on = ["null_resource.project_id", "null_resource.default_kms_key_name"]
 }
 
 // Bucket for project sensitive object storage with versioning enabled, optional KMS key encryption, and logging.

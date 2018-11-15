@@ -2,12 +2,11 @@ terraform {
   required_version = ">= 0.11.0"
 }
 
-// Convenient access to the host's managed zone for creating record sets
-data "google_dns_managed_zone" "host" {
-  count = "${var.host_dns_zone == "" ? 0 : 1}"
-
-  name    = "${var.host_dns_zone}"
-  project = "${var.host_project}"
+// Ensure the project exists first
+resource "null_resource" "project_id" {
+  triggers {
+    project_id = "${var.project_id}"
+  }
 }
 
 // Enables the host project as a Shared VPC host.
@@ -17,6 +16,10 @@ resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
   count = "${var.create_vpc_network ? 1 : 0}"
 
   project = "${var.host_project}"
+
+  lifecycle {
+    prevent_destroy = "true"
+  }
 }
 
 // Enables this project as a Shared VPC service project on the host's shared subnet for this project's region.
@@ -25,6 +28,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_project" {
 
   host_project    = "${google_compute_shared_vpc_host_project.shared_vpc_host.id}"
   service_project = "${var.project_id}"
+  depends_on      = ["null_resource.project_id"]
 }
 
 // Access to the VPC host's shared subnet for this region.
@@ -41,6 +45,8 @@ resource "google_compute_network" "service_network" {
   name                    = "${var.network_name == "" ? join("-", list(var.project_id, "net")) : var.network_name}"
   project                 = "${var.project_id}"
   routing_mode            = "${var.routing_mode}"
+
+  depends_on = ["null_resource.project_id"]
 }
 
 resource "google_compute_subnetwork" "service_subnet" {
@@ -81,6 +87,8 @@ resource "google_project_iam_member" "project_vpc_member" {
   member  = "serviceAccount:${var.service_account_email}"
   project = "${var.project_id}"
   role    = "roles/compute.networkUser"
+
+  depends_on = ["null_resource.project_id"]
 }
 
 resource "google_compute_subnetwork_iam_member" "project_vpc_subnet_member" {

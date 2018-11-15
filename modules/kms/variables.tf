@@ -19,6 +19,10 @@ variable "service_account_email" {
   description = "The email address of the project SA to grant access to encryption resources."
 }
 
+variable "services" {
+  description = "Only used to ensure that API services are enabled before creating VPC resources."
+}
+
 /**
 * OPTIONAL PARAMETERS
 * These parameters have reasonable defaults.
