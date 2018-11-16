@@ -74,9 +74,13 @@ output "vpc" {
   description = "Project VPC network details."
 
   value = {
-    network_name         = "${module.vpc.name}"
-    network_routing_mode = "${module.vpc.routing_mode}"
-    network_gateway      = "${module.vpc.gateway_ipv4}"
-    network_self_link    = "${module.vpc.self_link}"
+    network_name          = "${module.vpc.name}"
+    network_routing_mode  = "${module.vpc.routing_mode}"
+    network_gateway       = "${module.vpc.gateway_ipv4}"
+    network_self_link     = "${module.vpc.self_link}"
+    subnet_names          = "${module.vpc.subnets}"
+    subnet_ips            = "${module.vpc.ips}"
+    subnet_private_access = "${module.vpc.private_access}"
+    subnet_flow_logs      = "${module.vpc.flow_logs}"
   }
 }
