@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - TBD
 
+## v0.2.0
+### Added
+- Subnet information to VPC outputs (fixes #4)
+
 ## v0.1.0
 ### Added
 - Main project module, including:
