@@ -82,7 +82,7 @@ resource "google_storage_bucket" "tfstate" {
 
 /**
 * Additional project resources. If you use these modules independently, remember to use version pinning
-* and Terraform's module syntax (github.com/minnowpod/terraform-google-project//modules/kms?ref=v0.1.0).
+* and Terraform's module syntax (github.com/minnowpod/terraform-google-project//modules/kms?ref=v0.2.0).
 * See https://www.terraform.io/docs/modules/sources.html for more information.
 */
 
