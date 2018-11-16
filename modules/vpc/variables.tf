@@ -35,7 +35,7 @@ variable "create_vpc_network" {
 }
 
 variable "network_name" {
-  description = " A unique name for the network, required by GCE."
+  description = "A unique name for the VPC network, required by GCE."
   default     = ""
 }
 

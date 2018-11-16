@@ -2,6 +2,21 @@
 
 A Terraform Module that helps you create projects for Google Cloud Platform.
 
+## Features
+
+By default, the module creates the following regional resources:
+
+- a GCP project with a randomized but memorable project ID and name
+- a new project service account, replacing the default account
+- a Terraform state bucket in the host project for the project's state
+- a KMS keyring and encryption key for asymmetric encryption/decryption
+- a GCS bucket for logging access to the project storage bucket, with encryption enabled using the project's KMS key
+- a GCS bucket for project-wide storage of sensitive objects, with encryption enabled using the project's KMS key
+- a VPC network configured as a service network on the Shared VPC host network
+- a default firewall rule blocking SSH from anywhere but inside of GCP Cloud Console
+
+_Only_ the GCP project itself and the service account are required. Everything else is optional and configurable.
+
 ## Goals
 
 #### Include batteries, _and_ be minimal
@@ -29,21 +44,6 @@ Use [HCL](https://github.com/hashicorp/hcl) and Terraform as idiomatically as po
 - only creating dependencies on external scripts or tools if absolutely necessary
 - not making assumptions about environments or relying on idiosyncratic environment configuration
 - etc.
-
-## Features
-
-By default, the module creates the following regional resources:
-
-- a GCP project with a randomized but memorable project ID and name
-- a new project service account, replacing the default account
-- a Terraform state bucket in the host project for the project's state
-- a KMS keyring and encryption key for asymmetric encryption/decryption
-- a GCS bucket for logging access to the project storage bucket, with encryption enabled using the project's KMS key
-- a GCS bucket for project-wide storage of sensitive objects, with encryption enabled using the project's KMS key
-- a VPC network configured as a service network on the Shared VPC host network
-- a default firewall rule blocking SSH from anywhere but inside of GCP Cloud Console
-
-_Only_ the GCP project itself and the service account are required. Everything else is optional and configurable.
 
 ## Inputs
 
@@ -100,7 +100,8 @@ Check [_docs/graph.png](https://github.com/minnowpod/terraform-google-project/bl
 ```hcl
 // Create a default project
 module "my-project" {
-  source = "github.com/minnowpod/terraform-google-project?ref=v0.1.0"
+  source  = "minnowpod/terraform-google-project"
+  version = "~> 0.2.0"
 
   // these can also be passed from the environment with TF_VAR_billing_account, for example
   billing_account = "bar"
@@ -123,7 +124,8 @@ module "my-project" {
 
 // Add an additional VPC network
 module "another-vpc" {
-  source = "github.com/minnowpod/terraform-google-project//modules/vpc?ref=v0.1.0"
+  source  = "minnowpod/terraform-google-project//modules/vpc"
+  version = "~> 0.2.0"
 
   // but skip the SSH firewall rule on this one
   create_ssh_fw_rule = "false"
