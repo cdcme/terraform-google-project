@@ -38,18 +38,20 @@ resource "google_service_account" "project_default" {
 
 // Remove the project's default service account.
 // See https://cloud.google.com/iam/docs/service-accounts#google-managed_service_accounts
-resource "null_resource" "remove_default_compute_sa" {
-  provisioner "local-exec" {
-    command = "gcloud iam service-accounts delete --project=${google_project.project.id} ${data.google_compute_default_service_account.details.email}"
-  }
 
-  triggers {
-    default_compute_sa = "${data.google_compute_default_service_account.details.id}"
-    enabled_apis       = "${join(",", var.enable_apis)}"
-  }
-
-  depends_on = ["google_project_service.gcp_apis", "data.google_compute_default_service_account.details"]
-}
+// commenting out for now: see https://github.com/terraform-google-modules/terraform-google-project-factory/issues/65
+//resource "null_resource" "remove_default_compute_sa" {
+//  provisioner "local-exec" {
+//    command = "gcloud iam service-accounts delete --project=${google_project.project.id} ${data.google_compute_default_service_account.details.email}"
+//  }
+//
+//  triggers {
+//    default_compute_sa = "${data.google_compute_default_service_account.details.id}"
+//    enabled_apis       = "${join(",", var.enable_apis)}"
+//  }
+//
+//  depends_on = ["google_project_service.gcp_apis", "data.google_compute_default_service_account.details"]
+//}
 
 // Create a bucket for this project's tfstate in the host project.
 // You'll want to create a backend.tf pointing to it:
