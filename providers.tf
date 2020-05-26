@@ -1,33 +1,34 @@
 provider "external" {
-  version = "~> 1.0"
+  version = "~> 1.2"
 }
 
 provider "google" {
-  credentials = "${file(var.gcloud_credentials)}"
-  project     = "${local.project_id}"
-  region      = "${var.region}"
-  version     = "~> 1.19.1"
+  credentials = file(var.gcloud_credentials)
+  project     = local.project_id
+  region      = var.region
+  version     = "~> 3.22.0"
 }
 
 provider "google-beta" {
-  credentials = "${file(var.gcloud_credentials)}"
-  project     = "${local.project_id}"
-  region      = "${var.region}"
-  version     = "~> 1.19.0"
+  credentials = file(var.gcloud_credentials)
+  project     = local.project_id
+  region      = var.region
+  version     = "~> 3.22.0"
 }
 
 provider "local" {
-  version = "~> 1.1"
+  version = "~> 1.4"
 }
 
 provider "null" {
-  version = "~> 1.0"
+  version = "~> 2.1.2"
 }
 
 provider "random" {
-  version = "~> 2.0"
+  version = "~> 2.2.1"
 }
 
 provider "template" {
-  version = "~> 1.0"
+  version = "~> 2.1.2"
 }
+

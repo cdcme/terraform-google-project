@@ -52,7 +52,7 @@ variable "gcloud_credentials" {
 
 variable "enable_apis" {
   description = "Which APIs to enable for this project."
-  type        = "list"
+  type        = list(string)
   default     = ["compute.googleapis.com", "cloudbilling.googleapis.com"]
 }
 
@@ -68,7 +68,7 @@ variable "id_prefix" {
 
 variable "labels" {
   description = "A set of key/value label pairs to assign to the project."
-  type        = "map"
+  type        = map(string)
 
   default = {
     environment = "development"
@@ -163,3 +163,4 @@ variable "subnet_name" {
   description = "The name of the resource, provided by the client when initially creating the resource. The name must be 1-63 characters long, and comply with RFC1035."
   default     = ""
 }
+
