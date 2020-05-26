@@ -78,3 +78,4 @@ variable "subnet_name" {
   description = "The name of the resource, provided by the client when initially creating the resource. The name must be 1-63 characters long, and comply with RFC1035."
   default     = ""
 }
+

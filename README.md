@@ -93,15 +93,15 @@ Use [HCL](https://github.com/hashicorp/hcl) and Terraform as idiomatically as po
 | tfstate\_bucket | Project Terraform state bucket details. |
 | vpc | Project VPC network details. |
 
-Check [_docs/graph.png](https://github.com/minnowpod/terraform-google-project/blob/master/_docs/graph.png) for the Terraform graph.
+Check [_docs/graph.png](https://github.com/carlodicelico/terraform-google-project/blob/master/_docs/graph.png) for the Terraform graph.
 
 ## Usage
 
 ```hcl
 // Create a default project
 module "my-project" {
-  source  = "minnowpod/terraform-google-project"
-  version = "~> 0.2.0"
+  source  = "carlodicelico/terraform-google-project"
+  version = "~> 0.3.0"
 
   // these can also be passed from the environment with TF_VAR_billing_account, for example
   billing_account = "bar"
@@ -124,8 +124,8 @@ module "my-project" {
 
 // Add an additional VPC network
 module "another-vpc" {
-  source  = "minnowpod/terraform-google-project//modules/vpc"
-  version = "~> 0.2.0"
+  source  = "carlodicelico/terraform-google-project//modules/vpc"
+  version = "~> 0.3.0"
 
   // but skip the SSH firewall rule on this one
   create_ssh_fw_rule = "false"
@@ -135,20 +135,16 @@ module "another-vpc" {
 }
 ```
 
-See also the included [examples](https://github.com/minnowpod/terraform-google-project/tree/master/examples).
-
-## Who maintains this Module?
-
-This Module is maintained by [Minnow](https://minnow.me/), an IoT startup that makes smart food pickup kiosks called pods.
+See also the included [examples](https://github.com/carlodicelico/terraform-google-project/tree/master/examples).
 
 ## How do I contribute?
 
-Contributions are welcome! Check out [CONTRIBUTING](https://github.com/minnowpod/terraform-google-project/tree/master/CONTRIBUTING.md) for instructions.
+Contributions are welcome! Check out [CONTRIBUTING](https://github.com/carlodicelico/terraform-google-project/tree/master/CONTRIBUTING.md) for instructions.
 
 ## How is this Module versioned?
 
 This Module follows the principles of [Semantic Versioning](http://semver.org/). You can find each new release,
-along with the changelog, in the [CHANGELOG](https://github.com/minnowpod/terraform-google-project/tree/master/CHANGELOG.md).
+along with the changelog, in the [CHANGELOG](https://github.com/carlodicelico/terraform-google-project/tree/master/CHANGELOG.md).
 
 During initial development, the major version will be 0 (e.g., `0.x.y`), which indicates the code does not yet have a
 stable API. Once we hit `1.0.0`, we will make every effort to maintain a backwards compatible API and use the MAJOR,
@@ -156,5 +152,5 @@ MINOR, and PATCH versions on each release to indicate any incompatibilities.
 
 ## License
 
-This code is released under the MIT License. Please see [LICENSE](https://github.com/minnowpod/terraform-google-project/tree/master/LICENSE) for more details.
+This code is released under the MIT License. Please see [LICENSE](https://github.com/carlodicelico/terraform-google-project/tree/master/LICENSE) for more details.
 

@@ -43,3 +43,4 @@ variable "storage_class" {
   description = "The storage class for your bucket."
   default     = "MULTIREGIONAL"
 }
+

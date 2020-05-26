@@ -29,7 +29,7 @@ variable "services" {
 */
 
 variable "kms_crypto_key_roles" {
-  type = "list"
+  type = list(string)
 
   default = [
     "roles/cloudkms.cryptoKeyEncrypterDecrypter",
@@ -40,3 +40,4 @@ variable "rotation_period" {
   description = "Generate a new CryptoKeyVersion and set it as the primary this often."
   default     = "604800s"
 }
+

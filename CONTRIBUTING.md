@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-First time contributing to a Minnow Open Source project? Read our [Code of Conduct](https://github.com/minnowpod/terraform-google-project/blob/master/CONDUCT.md).
+First time contributing to an Open Source project? Read our [Code of Conduct](https://github.com/carlodicelico/terraform-google-project/blob/master/CONDUCT.md).
 
 Contributions to this Module are very welcome! We follow a fairly standard [pull request
 process](https://help.github.com/articles/about-pull-requests/) for contributions, subject to the following guidelines:
@@ -85,7 +85,7 @@ to include the following:
 ## Merge and release
 
 The maintainers for this repo will review your code and provide feedback. If everything looks good, they will merge the
-code and release a new version, which you'll be able to find in the [releases page](https://github.com/minnowpod/terraform-google-project/tree/master/releases).
+code and release a new version, which you'll be able to find in the [releases page](https://github.com/carlodicelico/terraform-google-project/tree/master/releases).
 
 # Attribution
 These guidelines are heavily based on the [HashiCorp Contribution Guidelines](https://github.com/hashicorp/terraform-google-consul/blob/master/CONTRIBUTING.md) and the [Homebrew Contribution Guidelines](https://github.com/Homebrew/homebrew-core/blob/master/CONTRIBUTING.md).
